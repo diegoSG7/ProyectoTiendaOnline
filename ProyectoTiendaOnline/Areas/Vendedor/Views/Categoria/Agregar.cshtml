@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Vendedor/Views/Shared/_VendedorLayout.cshtml";
+}
+
+@model ProyectoTiendaOnline.Models.Categoria
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Agregar Categoria</h1>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Informacion de Categoria</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form method="post" asp-area="vendedor" asp-controller="categoria" asp-action="agregar">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input class="form-control" asp-for="Nombre" type="text">
+                        </div>
+                        
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>

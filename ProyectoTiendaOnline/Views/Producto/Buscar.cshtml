@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewData["Title"] = "Detalles";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+@using ProyectoTiendaOnline.Models;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core.Common;
+@using X.PagedList.Mvc.Core;
+
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>@ViewBag.palabra</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-controller="home" asp-action="index">Home</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
+<!-- ================ category section start ================= -->
+<section class="section-margin--small mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-5">
+
+                @await Component.InvokeAsync("Categoria")
+
+            </div>
+            <div class="col-xl-9 col-lg-8 col-md-7">
+                
+                <!-- Start Best Seller -->
+                <section class="lattest-product-area pb-40 category-list">
+                    <div class="row">
+                        @foreach (var producto in ViewBag.Productos)
+                        {
+                            Producto producInfo = (Producto)producto;
+                            Foto foto = producInfo.Fotos.SingleOrDefault(o => o.Destacado);
+                            var fotoNombre = foto == null ? "noimage.PNG" : foto.Nombre;
+                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                <div class="card text-center card-product">
+                                    <div class="card-product__img">
+                                        <img class="card-img" src="~/imagenes/@fotoNombre" alt="">
+                                        <ul class="card-product__imgOverlay">
+                                            
+                                        </ul>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>@producInfo.Parent.Nombre</p>
+                                        <h4 class="card-product__title">
+                                            <a asp-controller="producto" asp-action="detalles" asp-route-id="@producto.Id">@producInfo.Nombre</a>
+                                        </h4>
+                                        <p class="card-product__price">S/@producInfo.Precio</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="pagination">
+                        @Html.PagedListPager((IPagedList)ViewBag.Productos, page => Url.Action("buscar", "producto",
+                       new { page = page}),new PagedListRenderOptions
+                       {
+                           LiElementClasses = new string[] { "page-item" },
+                           PageClasses = new string[] { "page-link" }
+                       })
+                    </div>
+                </section>
+
+                
+                <!-- End Best Seller -->
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- ================ category section end ================= -->

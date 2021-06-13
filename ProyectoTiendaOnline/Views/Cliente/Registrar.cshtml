@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewData["Title"] = "Registrar";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+@model ProyectoTiendaOnline.Models.Usuario
+
+<section class="login_box_area section-margin">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="login_box_img">
+                    <div class="hover">
+                        <h4>¿Ya tienes una cuenta ?</h4>
+                        <a class="button button-account" asp-controller="cliente" asp-action="login">Inicia Sesion</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="login_form_inner">
+                    <h3>Registrarse </h3>
+                    @ViewBag.error
+                <form class="row login_form" asp-controller="cliente" asp-action="registrar" method="post">
+                    
+                    <div class="col-md-12 form-group">
+                        <input class="form-control" name="nombre" placeholder="Nombre" asp-for="Nombre" />
+                    </div>
+
+                    <div class="col-md-12 form-group">
+                        <input class="form-control" name="apellidos" placeholder="Apellido" asp-for="Apellidos" />
+                    </div>
+                        
+                    <div class="col-md-12 form-group">
+                        <input type="email" class="form-control" name="email" placeholder="Email" asp-for="Email" />
+                    </div>
+
+                    <div class="col-md-12 form-group">
+                        <input class="form-control" name="username" placeholder="Nombre de Usario" asp-for="Username" />
+                    </div>
+
+                    <div class="col-md-12 form-group">
+                        <input type="password" class="form-control" name="password" placeholder="Password" asp-for="Password" />
+                    </div>
+
+                    
+                    <div class="col-md-12 form-group">
+                        <input class="form-control" name="direccion" placeholder="Direccion" asp-for="Direccion" />
+                    </div>
+
+                    <div class="col-md-12 form-group">
+                        <input class="form-control" name="telefono" placeholder="Telefono" asp-for="Telefono" />
+                    </div>
+                        
+                    <div class="col-md-12 form-group">
+                        <button type="submit" class="button button-register w-100">Registrarce</button>
+                    </div>
+
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

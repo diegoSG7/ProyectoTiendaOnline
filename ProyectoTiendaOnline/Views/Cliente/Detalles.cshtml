@@ -1,0 +1,134 @@
+﻿
+@{
+    ViewData["Title"] = "Factura Detalle";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<section class="cart_area">
+    <div class="container">
+        <div class="cart_inner">
+            <div class="page-header">
+                <h3>Detalle de la Compra </h3>
+            </div>
+            <div class="row-fluid">
+                <div class="span6">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre de producto</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Sub Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>@ViewBag.facturas.Producto.Nombre</td>
+                                <td>S/@ViewBag.facturas.Precio</td>
+                                <td>@ViewBag.facturas.Cantidad</td>
+                                <td>S/@(ViewBag.facturas.Precio * ViewBag.facturas.Cantidad)</td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            @if (ViewBag.facturas.Estado == 2)
+            {
+                <div class="row no-print">
+                    <div class="col-12">
+                        <form asp-controller="cliente" asp-action="process" method="post">
+                            <input type="hidden" name="id" value="@ViewBag.facturas.Id" />
+                            <button type="submit" class="btn btn-primary ">
+                                Marcar como Recibido
+                            </button>
+                        </form>
+
+                        <a class="btn btn-success float-right" asp-controller="cliente" asp-action="historia">Regresar</a>
+                    </div>
+
+                </div>
+
+
+            }
+            else
+            {
+                <div>
+                    <div class="col-12">
+                        <a class="btn btn-success float-right" asp-controller="cliente" asp-action="historia">Regresar</a>
+
+                    </div>
+                </div>
+            }
+        </div>
+        <br />
+        <br />
+        <br />
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="review_list">
+                            <br />
+
+                            @foreach (var item in ViewBag.facturas.Chats)
+                            {<div class="review_item" STYLE="BORDER:dotted 5PX blue" >
+                                    <div class="media">
+
+                                        <div class="media-body">
+                                            <h4>@item.Usuario.Username</h4>
+
+                                        </div>
+                                    </div>
+                                    <p>
+                                        @item.Texto
+                                    </p>
+                                </div>
+                                <br />
+                                
+                            }
+
+                        </div>
+
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="review_box">
+
+                            @if (ViewBag.usuario == null)
+                            {
+                                <span> Comprar el producto para dejar una reseña</span>
+                            }
+                            else
+                            {
+                                if (ViewBag.facturas.Estado<3) {
+                                <h4>Agregar Mensaje</h4>
+
+                                <form class="form-contact form-review mt-3" asp-controller="Cliente" asp-action="AddComentario" method="post">
+                                    <input type="hidden" name="FacturaId" value="@ViewBag.facturas.Id" />
+                                    <div class="form-group">
+                                        <textarea class="form-control different-control w-100" name="Texto" id="textarea" cols="30" rows="5" placeholder="Dejar Mensaje"></textarea>
+                                    </div>
+
+                                    <div class="form-group text-center text-md-right mt-3">
+                                        <button type="submit" class="button button--active button-review">Publicar</button>
+                                    </div>
+                                </form>
+                                }
+                                else
+                                {
+
+                                }
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</section>

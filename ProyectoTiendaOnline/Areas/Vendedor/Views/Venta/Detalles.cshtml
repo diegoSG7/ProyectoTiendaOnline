@@ -1,0 +1,140 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Vendedor/Views/Shared/_VendedorLayout.cshtml";
+}
+
+<div class="invoice p-3 mb-3">
+    <!-- title row -->
+    <div class="row">
+        <div class="col-12">
+            <h4>
+                <small class="float-right">Fecha: @ViewBag.ventas.Creado.ToString("MM/dd/yyyy")</small>
+            </h4>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- info row -->
+    <div class="row invoice-info">
+
+        <!-- /.col -->
+        <div class="col-sm-4 invoice-col">
+            <address>
+                <strong>Cliente: @ViewBag.ventas.Usuario.Nombre @ViewBag.ventas.Usuario.Apellidos</strong><br>
+                Direccion: @ViewBag.ventas.Usuario.Direccion<br>
+                Telefono: @ViewBag.ventas.Usuario.Telefono<br>
+                Email: @ViewBag.ventas.Usuario.Email
+            </address>
+        </div>
+        <!-- /.col -->
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    <!-- Table row -->
+    <div class="row">
+        <div class="col-12 table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre del Producto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@ViewBag.ventas.Producto.Nombre </td>
+                        <td>@ViewBag.ventas.Producto.Precio</td>
+                        <td>@ViewBag.ventas.Cantidad</td>
+                        <td>$@(ViewBag.ventas.Producto.Precio * ViewBag.ventas.Cantidad)</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    <!-- /.row -->
+    <!-- this row will not appear when printing -->
+    @if (ViewBag.ventas.Estado == 1)
+    {
+        <div class="row no-print">
+            <div class="col-12">
+                <form asp-area="vendedor" asp-controller="venta" asp-action="process" method="post">
+                    <input type="hidden" name="id" value="@ViewBag.ventas.Id" />
+                    <button type="submit" class="btn btn-success float-right">
+                        <i class="far fa-credit-card"></i> Enviar producto
+                    </button>
+                </form>
+            </div>
+        </div>
+    }
+</div>
+
+
+<br />
+<br />
+<br />
+<div class="invoice p-3 mb-3">
+    <div class="row">
+        <div class="col-12 table-responsive">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="review_list">
+                                <br />
+
+                                @foreach (var item in ViewBag.chats)
+                                {<div class="review_item" STYLE="BORDER:dotted 5PX ">
+                                        <div class="media">
+
+                                            <div class="media-body">
+                                                <h4>@item.Usuario.Username</h4>
+
+                                            </div>
+                                        </div>
+                                        <p>
+                                            @item.Texto
+                                        </p>
+                                    </div>
+                                    <br />
+
+                                }
+
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="review_box">
+
+                                @if (ViewBag.usuario == null)
+                                {
+                                    <span> Comprar el producto para dejar una reseña</span>
+                                }
+                                else
+                                {
+                                    <h4>Agregar Mensaje</h4>
+
+                                    <form class="form-contact form-review mt-3" asp-area="Vendedor" asp-controller="Venta" asp-action="AddComentario" method="post">
+                                        <input type="hidden" name="FacturaId" value="@ViewBag.ventas.Id" />
+                                        <div class="form-group">
+                                            <textarea class="form-control different-control w-100" name="Texto" id="textarea" cols="30" rows="5" placeholder="Dejar Mensaje"></textarea>
+                                        </div>
+
+                                        <div class="form-group text-center text-md-right mt-3">
+                                            <button type="submit" class="button button--active button-review">Publicar</button>
+                                        </div>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>>
+

@@ -1,0 +1,27 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div class="sidebar-categories">
+    <div class="head">Categorias</div>
+    <ul class="main-categories">
+        @foreach(var categoria in Model){
+        <li class="nav-item dropdown">
+            <a id="dropdownMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">@categoria.Nombre</a>
+            @if(categoria.InverseParents != null && categoria.InverseParents.Count > 0)
+            {
+                <ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
+                    @foreach (var subcategoria in categoria.InverseParents)
+                    {
+                        <li class="dropdown-divider"></li>
+                        <li><a asp-controller="producto" asp-action="categoria" asp-route-id="@subcategoria.Id" 
+                               class="dropdown-item">@subcategoria.Nombre</a></li>
+                    }
+                </ul>
+            }
+            
+        </li> 
+        }
+    </ul>
+</div>

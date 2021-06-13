@@ -1,0 +1,105 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Vendedor/Views/Shared/_VendedorLayout.cshtml";
+}
+@using ProyectoTiendaOnline.Models;
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Lista de Productos</h1>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"></h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="listaproducto" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Foto</th>
+                                <th>Precio</th>
+                                <th>Categoria</th>
+                                <th>Usuario</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var producto in ViewBag.productos)
+                            {
+                                Producto pr = (Producto)producto;
+                                var foto = pr.Fotos.SingleOrDefault(p => p.Destacado == true);
+                                <tr>
+                                    <td>@producto.Id</td>
+                                    <td>@producto.Nombre</td>
+                                    <td><img src="~/imagenes/@foto.Nombre" width="120"/></td>
+                                    <td>@producto.Precio"</td>
+                                    <td>@producto.Parent.Nombre</td>
+                                    <td>@producto.Usuario.Nombre</td>
+                                    <td>
+                                        <a asp-area="vendedor" asp-controller="producto"
+                                           asp-action="editar" asp-route-id=@producto.Id>Editar</a> |
+
+                                        <a asp-area="vendedor" asp-controller="producto"
+                                           asp-action="eliminar" asp-route-id=@producto.Id
+                                           onclick="return confirm('Estas seguro?')">Eliminar</a> <span>|</span>
+
+                                        <a asp-area="vendedor" asp-controller="foto"
+                                           asp-action="index" asp-route-id=@producto.Id>Lista de fotos</a> |
+
+                                        <a asp-area="vendedor" asp-controller="foto"
+                                           asp-action="agregar" asp-route-id=@producto.Id>Agregar fotos</a>
+
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Foto</th>
+                                <th>Precio</th>
+                                <th>Categoria</th>
+                                <th>Usuario</th>
+                                <th>Accion</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+
+</section>
+
+<!-- page script -->
+<script>
+    $(function () {
+        $('#listaproducto').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+</script>

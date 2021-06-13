@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<section  class="cart_area">
+    <div class="container">
+        <div class="cart_inner">
+            <div class="page-header">
+                <h3>Compras Realizadas </h3>
+            </div>
+            <div class="row-fluid">
+                <div class="span6">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Nombre del producto</th>
+                                <th>Fecha</th>
+                                <th>Precio</th>
+                                <th>cantidad</th>
+                                <th>Estado</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <!--<tbody>
+                            foreach (var factura in ViewBag.facturas)
+                            {
+                                <tr>
+                                    <td>factura.Id</td>
+                                    <td>factura.Nombre</td>
+                                    <td>factura.Creado.ToString("MM/dd/yyyy")</td>
+                                    <td><a asp-controller="cliente" asp-action="detalles" asp-route-id="factura.Id">Detalles</a></td>
+
+                                </tr>
+                            }
+                        </tbody><-->
+                        <tbody>
+                            @foreach (var factura in ViewBag.facturas)
+                            {
+                                Factura fa = (Factura)factura;
+                                var foto = fa.Producto.Fotos.SingleOrDefault(p => p.Destacado == true);
+                            <tr>
+                                <td><img src="~/imagenes/@foto.Nombre" width="90" /></td>
+                                <td>@factura.Producto.Nombre</td>
+                                <td>@factura.Creado.ToString("MM/dd/yyyy")</td>
+                                <td>@factura.Precio</td>
+                                <td>@factura.Cantidad</td>
+                                @if (factura.Estado == 1)
+                                {
+                                    <td>Envio Pendiente</td>
+                                }
+                                @if (factura.Estado == 2)
+                                {
+                                    <td><a asp-controller="cliente" asp-action="MarcarComoRecibido" asp-route-id="@factura.Id" onclick="return confirm('¿Marcar producto como recibido?')">Producto Enviado</a></td>
+                                }
+                                @if (factura.Estado == 3)
+                                {
+                                    <td>Producto Recibido</td>
+                                }
+                                <td><a asp-controller="cliente" asp-action="detalles" asp-route-id="@factura.Id">Detalles</a></td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            </div>
+        </div>
+</section>

@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Vendedor/Views/Shared/_VendedorLayout.cshtml";
+}
+
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Lista de Categorias</h1>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"></h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="tablacategoria" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Parent</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var categoria in ViewBag.categorias)
+                            {
+                                <tr>
+                                    <td>@categoria.Id</td>
+                                    <td><b>@categoria.Nombre</b></td>
+                                    <td>@(categoria.Parent == null ? "" : categoria.Parent.Nombre)</td>
+                                    <td>
+                                        <a asp-area="vendedor" asp-controller="categoria"
+                                           asp-action="editar" asp-route-id=@categoria.Id>Editar</a> |
+                                        @if (categoria.InverseParents != null &&
+                                      categoria.InverseParents.Count == 0)
+                                        {
+                                            <a asp-area="vendedor" asp-controller="categoria"
+                                               asp-action="elimiar" asp-route-id=@categoria.Id
+                                               onclick="return confirm('Estas seguro?')">Eliminar</a> <span>|</span>
+                                        }
+                                        <a asp-area="vendedor" asp-controller="categoria"
+                                           asp-action="agregarsubcategoria" asp-route-id=@categoria.Id>Agregar sub categoria</a>
+                                    </td>
+                                </tr>
+                                if (categoria.InverseParents != null &&
+                                    categoria.InverseParents.Count != 0)
+                                {
+                                    foreach (var subCategoria in categoria.InverseParents)
+                                    {
+                                        <tr>
+                                            <td>@subCategoria.Id</td>
+                                            <td>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@subCategoria.Nombre
+                                            </td>
+                                            <td>@subCategoria.Parent.Nombre</td>
+                                            <td>
+                                                <a asp-area="vendedor" asp-controller="categoria"
+                                                   asp-action="editar" asp-route-id=@subCategoria.Id>Editar</a> |
+                                                <a asp-area="vendedor" asp-controller="categoria"
+                                                   asp-action="elimiar" asp-route-id=@subCategoria.Id
+                                                   onclick="return confirm('Estas seguro?')">Eliminar</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Parent</th>
+                                <th>Accion</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+
+</section>
+
+<!-- page script -->
+<script>
+    $(function () {
+        $('#tablacategoria').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+</script>

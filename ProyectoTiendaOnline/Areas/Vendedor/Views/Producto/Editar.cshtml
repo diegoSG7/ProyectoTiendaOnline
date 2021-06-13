@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Vendedor/Views/Shared/_VendedorLayout.cshtml";
+}
+
+@model ProyectoTiendaOnline.Areas.Vendedor.Models.ViewModels.ProductoViewModel
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Agregar Producto</h1>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Informacion del Producto</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form method="post" asp-area="vendedor" asp-controller="producto" asp-action="editar">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input class="form-control" asp-for="Producto.Nombre" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="descripcion">Descripcion</label>
+                            <textarea class="form-control" rows="3" asp-for="Producto.Descripcion"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="detalles">Detalles</label>
+                            <textarea class="form-control" rows="3" asp-for="Producto.Detalles"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="precio">Precio</label>
+                            <input class="form-control" asp-for="Producto.Precio" type="number" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="cantidad">Cantidad</label>
+                            <input class="form-control" asp-for="Producto.Cantidad" type="number" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Categoria</label>
+                            <select class="form-control" asp-for="Producto.CategoriaId" asp-items="@Model.Categorias">
+                                <option></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" asp-for="Producto.UsuarioId" type="hidden">
+                        </div>
+
+
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <input type="hidden" asp-for="Producto.Id" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>

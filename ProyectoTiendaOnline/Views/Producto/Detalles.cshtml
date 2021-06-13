@@ -1,0 +1,237 @@
+﻿@model ProyectoTiendaOnline.Models.Producto
+@{
+    ViewData["Title"] = "Detalles";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+@using System.Security.Claims
+@{
+    var user = Convert.ToInt32(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+}
+
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="blog">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>@ViewBag.Producto.Parent.Nombre</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-controller="home" asp-action="index">Home</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
+<!--================Single Product Area =================-->
+<div class="product_image_area">
+    <div class="container">
+        <div class="row s_product_inner">
+            <div class="col-lg-6">
+                <div class="owl-carousel owl-theme s_Product_carousel">
+                    <div class="single-prd-item">
+                        <img class="img-fluid" src="~/imagenes/@ViewBag.FotoDestacada" alt="">
+                    </div>
+                    @foreach (var foto in ViewBag.ProductoImagenes)
+                    {
+                        if (!foto.Destacado)
+                        {
+                            <div class="single-prd-item">
+                                <img class="img-fluid" src="~/imagenes/@foto.Nombre" alt="">
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="col-lg-5 offset-lg-1">
+                <div class="s_product_text">
+                    <h3>@ViewBag.Producto.Nombre</h3>
+                    <h2>S/@ViewBag.Producto.Precio</h2>
+                    <ul class="list">
+                        <li><a class="active" href="#"><span>Categoría</span> : @ViewBag.Producto.Parent.Nombre</a></li>
+                        <li><a href="#"><span>Disponibles</span> : @ViewBag.Producto.Cantidad en Stock</a></li>
+                        <li><a href="#"><span>Vendedor</span> : @ViewBag.Producto.Usuario.Nombre</a></li>
+                    </ul>
+                    <p>
+                        @ViewBag.Producto.Descripcion
+                    </p>
+
+                    <form asp-controller="producto" asp-action="checkout" method="post">
+                        <div>
+                            <label for="qty">Cantidad:</label>
+
+                            <input type="number" name="cantidad" value="1" min="1" placeholder="Qty." class="input-text qty" size="2" />
+                            <div class="payment_item">
+                                <div class="radion_btn">
+                                    <input type="radio" id="f-option5" name="selector">
+                                    <label for="f-option5">
+                                        Depósito bancario
+                                    </label>
+                                    <div class="check"></div>
+                                </div>
+                                <p>
+                                    Envíe un deposito a nombre del vendedor ,
+                                </p>
+                            </div>
+                            <div class="payment_item">
+                                <div class="radion_btn">
+                                    <input type="radio" id="f-option6" name="selector">
+                                    <label for="f-option6">Paypal </label>
+                                    <img src="~/user/img/product/tarjeta.png" width="130">
+                                    <div class="check"></div>
+                                </div>
+                                <p>
+                                    Pague a través de PayPal; puede pagar con su tarjeta de crédito si no tiene PayPal
+                                </p>
+                            </div>
+
+                            
+                            <input type="hidden" name="id" value="@ViewBag.Producto.Id" />
+                            @if (ViewBag.Producto.Cantidad > 0) {
+                            <button type="submit" class="button primary-btn"> Comprar</button>
+                            <!--<a class="button primary-btn" asp-controller="producto" asp-action="CheckOut" asp-route-id="@ViewBag.Producto.Id">Agregar al Carrito</a>-->
+                            }
+                            else
+                            {
+
+                            }
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--================End Single Product Area =================-->
+<!--================Product Description Area =================-->
+<section class="product_description_area">
+    <div class="container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Description</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review"
+                   aria-selected="false">Reviews</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <p>
+                    @ViewBag.Producto.Detalles
+                </p>
+
+            </div>
+
+            <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row total_rate">
+                            <div class="col-6">
+                                <div class="box_total">
+                                    <h5>Puntuación General</h5>
+                                    <h4>@ViewBag.Producto.Puntaje</h4>
+                                    <h6>(@ViewBag.TotalComentarios Reviews)</h6>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="rating_list">
+                                    <h3>Basado en @ViewBag.TotalComentarios Reviews</h3>
+                                    <ul class="list">
+
+
+                                        @for (var i = 0; i < @ViewBag.Producto.Puntaje; i++)
+                                        {
+                                            <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                        }
+                                        @for (var i = 0; i < 5 - @ViewBag.Producto.Puntaje; i++)
+                                        {
+                                            <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <br />
+                        </div>
+                        <div class="review_list" >
+                            <br />
+                            @foreach (var item in ViewBag.Comentarios)
+                            {
+                                <div class="review_item" STYLE="BORDER:dotted 5PX blue">
+                                    <div class="media">
+
+                                        <div class="media-body">
+                                            <h4>@item.Usuario.Username</h4>
+                                            <div class="rating_list">
+                                                <ul class="list-inline">
+                                                    @for (var i = 0; i < item.Puntaje; i++)
+                                                    {
+                                                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                                    }
+                                                    @for (var i = 0; i < 5 - item.Puntaje; i++)
+                                                    {
+                                                        <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        @item.Texto
+                                    </p>
+                                </div>
+                                <br />
+                            }
+
+                        </div>
+
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="review_box">
+
+                            @if (ViewBag.factura != null)
+                            {
+
+                                @if (ViewBag.factura.UsuarioId == 0)
+                                {
+                                    <span> Comprar el producto para dejar una reseña</span>
+                                }
+                                else
+                                {
+                                    @if(ViewBag.ComentariUsuario == null) { 
+                                    <h4>Agregar Review</h4>
+
+                                    <form class="form-contact form-review mt-3" asp-controller="Producto" asp-action="AddComentario" method="post">
+                                        <input type="hidden" name="ProductoId" value="@ViewBag.Producto.Id" />
+                                        <div class="form-group">
+                                            <textarea class="form-control different-control w-100" name="Texto" id="textarea" cols="30" rows="5" placeholder="Dejar Comentario"></textarea>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <label>Puntaje (1-5)</label>
+                                            <input class="form-control" name="Puntaje" type="number" max="5" min="1">
+                                        </div>
+                                        <div class="form-group text-center text-md-right mt-3">
+                                            <button type="submit" class="button button--active button-review">Publicar</button>
+                                        </div>
+                                    </form>
+                                    }
+                                    else
+                                    {
+                                        <label> </label>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <span> Comprar el producto para dejar una reseña</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Product Description Area =================-->

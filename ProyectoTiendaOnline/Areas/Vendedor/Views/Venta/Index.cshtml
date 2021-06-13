@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Vendedor/Views/Shared/_VendedorLayout.cshtml";
+}
+@using ProyectoTiendaOnline.Models;
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Lista de Ventas</h1>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"></h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="listaproducto" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>cantidad</th>
+                                <th>Fecha</th>
+                                <th>Subtotal</th>
+                                <th>Estado</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var venta in ViewBag.ventas)
+                            {
+                                //Producto pr = (Producto)producto;
+                                //var foto = pr.Fotos.SingleOrDefault(p => p.Destacado == true);
+                                <tr>
+                                    <td>@venta.Id</td>
+                                    <td>@venta.Producto.Nombre</td>
+                                    <td>@venta.Precio</td>
+                                    <td>@venta.Cantidad</td>
+                                    <td>@venta.Creado.ToString("MM/dd/yyyy")</td>
+                                    <td>S/@(venta.Precio * venta.Cantidad)</td>
+                                    <td>@(venta.Estado == 1 ? "Envio Pendiente" : "Producto Enviado")</td>
+                                    <td><a asp-area="vendedor" asp-controller="venta" asp-action="detalles" asp-route-id="@venta.Id">Detalles</a></td>
+                                    
+                                </tr>
+
+                            }
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>cantidad</th>
+                                <th>Fecha</th>
+                                <th>Subtotal</th>
+                                <th>Estado</th>
+                                <th>Accion</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+
+</section>
+
+<!-- page script -->
+<script>
+    $(function () {
+        $('#listaproducto').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+</script>

@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Vendedor/Views/Shared/_VendedorLayout.cshtml";
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Foto de @ViewBag.Producto.Nombre</h1>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Lista de Fotos</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="listafoto" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Foto</th>
+                                <th>Destacado</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var foto in ViewBag.Fotos)
+                            {
+                                <tr>
+                                    <td>@foto.Id</td>
+                                    <td><img src="~/imagenes/@foto.Nombre" width="120"/></td>
+                                    <td>@(foto.Destacado ? "Destacado": "")</td>
+                                    <td>
+                                        <a asp-area="vendedor" asp-controller="foto"
+                                           asp-action="editar" asp-route-id=@foto.Id asp-route-productoId=@foto.ProductoId>Editar</a> |
+
+                                        <a asp-area="vendedor" asp-controller="foto"
+                                           asp-action="eliminar" asp-route-id=@foto.Id asp-route-productoId=@foto.ProductoId
+                                           onclick="return confirm('Estas seguro?')">Eliminar</a> <span>|</span>
+
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Id</th>
+                                <th>Foto</th>
+                                <th>Destacado</th>
+                                <th>Accion</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+
+</section>
+
+<!-- page script -->
+<script>
+    $(function () {
+        $('#listafoto').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+</script>

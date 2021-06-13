@@ -1,0 +1,112 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+@using ProyectoTiendaOnline.Models;
+
+
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>Carrito de Compra</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-controller="home" asp-action="index">Home</a></li>
+
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
+<!--================Cart Area =================-->
+<section class="cart_area">
+    <div class="container">
+        <div class="cart_inner">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ViewBag.Carrito == null)
+                        {
+
+                        }
+                        else
+                        {
+                            @foreach (var item in ViewBag.carrito)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="media">
+                                            <div class="d-flex">
+                                                <img src="~/imagenes/@item.Foto" width="60">
+                                            </div>
+                                            <div class="media-body">
+                                                <p>@item.Nombre</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h5>S/@item.Precio</h5>
+                                    </td>
+                                    <td>
+                                        <div class="product_count">
+                                            <input type="text" name="qty" id="sst" maxlength="12" value="@item.Cantidad" title="Quantity:"
+                                                   class="input-text qty">
+                                            <a class="btn btn-danger" asp-controller="carrito" asp-action="eliminar" asp-route-id="@item.Id">Eliminar </a>
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h5>S/@(item.Precio * item.Cantidad)</h5>
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    <h5>Subtotal</h5>
+                                </td>
+                                <td>
+                                    <h5>S/@ViewBag.Total</h5>
+                                </td>
+                            </tr>
+                        }
+
+                        <tr class="out_button_area">
+                            <td class="d-none-l">
+                            </td>
+                            <td class="">
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                <div class="checkout_btn_inner d-flex align-items-center">
+                                    <a class="gray_btn" asp-controller="home">Regresar</a>
+                                    @if (ViewBag.Carrito != null)
+                                    {
+                                    <a class="primary-btn ml-2" asp-controller="carrito" asp-action="checkout">Comprar</a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

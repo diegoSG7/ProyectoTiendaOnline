@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Vendedor/Views/Shared/_VendedorLayout.cshtml";
+}
+
+@model ProyectoTiendaOnline.Models.Foto
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Agregar Foto a @ViewBag.Producto.Nombre</h1>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Informacion de Foto</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form method="post" asp-area="vendedor" asp-controller="foto" asp-action="agregar"
+                      enctype = "multipart/form-data" >
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="exampleInputFile">Foto</label>
+                            <input id="exampleInputFile" type="file" name="fileUpload" accept="image/*">
+                        </div>
+                        <div class="checkbox">
+                            <label for="Destacado">Destado</label>
+                            <input type="checkbox" asp-for="Destacado">
+                        </div>
+
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <input type="hidden" asp-for="ProductoId" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>

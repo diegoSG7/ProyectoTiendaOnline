@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<section class="login_box_area section-margin">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="login_box_img">
+                    <div class="hover">
+                        <h4>¿Nuevo en nuestro sitio web?</h4>
+                        <p></p>
+                        <a class="button button-account" asp-controller="cliente" asp-action="registrar">Crear una cuenta</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="login_form_inner">
+                    <h3>Iniciar Sesión </h3>
+                    @ViewBag.error
+                    <form class="row login_form" asp-controller="cliente" asp-action="login" method="post">
+                        <div class="col-md-12 form-group">
+                            <input type="email" class="form-control" name="email" placeholder="email" />
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input type="password" class="form-control" name="password" placeholder="password" />
+                        </div>
+                        <div class="col-md-12 form-group">
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <button type="submit" class="button button-login w-100">Ingresar</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -8,6 +8,7 @@ namespace ProyectoTiendaOnline.Models
     public class Factura
     {
         public int Id { get; set; }
+
         public DateTime Creado { get; set; }
         public int ProductoId { get; set; }
         public int UsuarioId { get; set; }
